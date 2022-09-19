@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:template/src/themes.dart';
+import 'package:template/src/tone_screen.dart';
 
 Future<void> main() async {
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.draco.naural.channel.audio',
     androidNotificationChannelName: 'Naural',
+    androidNotificationChannelDescription:
+        'Responsible for playing binaural audio tones.',
     androidNotificationOngoing: true,
   );
 
@@ -22,7 +25,7 @@ class NauralApp extends StatelessWidget {
     return MaterialApp(
       title: 'Naural',
       theme: primaryTheme,
-      home: Container(),
+      home: const ToneScreen(),
     );
   }
 }
