@@ -8,12 +8,16 @@ environment:
   sdk: ">=2.17.6 <3.0.0"
 
 dependencies:
+  binaural:
+    git: https://github.com/tytydraco/binaural
   flutter:
     sdk: flutter
   just_audio: ^0.9.29
   just_audio_background: ^0.0.1-beta.7
   just_audio_mpv: ^0.1.4
   just_audio_windows: ^0.1.0
+  wav:
+    git: https://github.com/tytydraco/wav
 
 dev_dependencies:
   flutter_test:
