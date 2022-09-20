@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "naural" "\0"
+            VALUE "CompanyName", "com.draco" "\0"
+            VALUE "FileDescription", "Naural" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "naural" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
+            VALUE "InternalName", "Naural" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.draco. All rights reserved." "\0"
             VALUE "OriginalFilename", "naural.exe" "\0"
-            VALUE "ProductName", "naural" "\0"
+            VALUE "ProductName", "Naural" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -1,4 +1,4 @@
-package com.example.naural
+package com.draco.naural
 
 import android.content.Context
 import androidx.multidex.MultiDex
