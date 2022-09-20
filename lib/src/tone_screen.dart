@@ -30,11 +30,11 @@ class _ToneScreenState extends State<ToneScreen> {
 
   Future<void> _playTone() async {
     // Invert the baseline frequency and modified frequency channels.
-    final baseHz = _primarySideSwitchValue
+    final baseHz = !_primarySideSwitchValue
         ? _baseHzSliderValue
         : _baseHzSliderValue + _diffHzSliderValue;
     final diffHz =
-        _primarySideSwitchValue ? _diffHzSliderValue : -_diffHzSliderValue;
+        !_primarySideSwitchValue ? _diffHzSliderValue : -_diffHzSliderValue;
 
     await _player.pause();
     await _player.setAudioSource(
@@ -45,6 +45,11 @@ class _ToneScreenState extends State<ToneScreen> {
     );
     await _player.setLoopMode(LoopMode.all);
     await _player.play();
+  }
+
+  /// Restart the audio if we were currently playing it.
+  Future<void> _applySettings() async {
+    if (_player.playing) await _playTone();
   }
 
   /// Load the saved preferences from the disk.
@@ -79,6 +84,7 @@ class _ToneScreenState extends State<ToneScreen> {
                       onChanged: (newValue) async {
                         _baseHzSliderValue = newValue;
                         await _baseHzPref.set(newValue);
+                        await _applySettings();
                       },
                     ),
                     FreqSliderWidget(
@@ -90,6 +96,7 @@ class _ToneScreenState extends State<ToneScreen> {
                       onChanged: (newValue) async {
                         _diffHzSliderValue = newValue;
                         await _diffHzPref.set(newValue);
+                        await _applySettings();
                       },
                     ),
                     SideSwitchWidget(
@@ -98,6 +105,7 @@ class _ToneScreenState extends State<ToneScreen> {
                       onChanged: (newValue) async {
                         _primarySideSwitchValue = newValue;
                         await _primarySidePref.set(newValue);
+                        await _applySettings();
                       },
                     ),
                     AudioControlWidget(
