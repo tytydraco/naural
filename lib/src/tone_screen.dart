@@ -47,17 +47,17 @@ class _ToneScreenState extends State<ToneScreen> {
             children: [
               FreqSliderWidget(
                 label: 'Base frequency (Hz)',
-                minFreq: 100,
-                maxFreq: 600,
-                interval: 50,
+                minFreq: 0,
+                maxFreq: 1000,
+                interval: 20,
                 initFreq: 200,
                 onChanged: (newValue) => _baseHzSliderValue = newValue,
               ),
               FreqSliderWidget(
                 label: 'Binarual frequency (Hz)',
                 minFreq: 0,
-                maxFreq: 60,
-                interval: 2,
+                maxFreq: 100,
+                interval: 1,
                 initFreq: 40,
                 onChanged: (newValue) => _diffHzSliderValue = newValue,
               ),
