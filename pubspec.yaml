@@ -1,6 +1,6 @@
 name: naural
 description: A simple binaural beat generator.
-version: 1.0.0+1
+version: 1.0.1+2
 repository: https://github.com/tytydraco/naural
 publish_to: 'none'
 
