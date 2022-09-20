@@ -1,7 +1,7 @@
-name: template
-description: Description for this template project.
+name: Naural
+description: A simple binaural beat generator.
 version: 1.0.0+1
-repository: https://github.com/tytydraco/template
+repository: https://github.com/tytydraco/naural
 publish_to: 'none'
 
 environment:
