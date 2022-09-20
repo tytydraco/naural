@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:template/src/audio_control_widget.dart';
 import 'package:template/src/binaural_audio_source.dart';
+import 'package:template/src/freq_slider_widget.dart';
 
 /// Provides options to choose and play a tone.
 class ToneScreen extends StatefulWidget {
@@ -34,36 +36,38 @@ class _ToneScreenState extends State<ToneScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: _playTone,
-            child: const Text('Play'),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 500,
+            maxHeight: 500,
           ),
-          Slider(
-            value: _baseHzSliderValue,
-            min: 100,
-            max: 600,
-            divisions: 10,
-            label: '${_baseHzSliderValue.toInt()} Hz',
-            onChanged: (newValue) {
-              setState(() {
-                _baseHzSliderValue = newValue;
-              });
-            },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              FreqSliderWidget(
+                label: 'Base frequency (Hz)',
+                minFreq: 100,
+                maxFreq: 600,
+                interval: 50,
+                initFreq: 200,
+                onChanged: (newValue) => _baseHzSliderValue = newValue,
+              ),
+              FreqSliderWidget(
+                label: 'Binarual frequency (Hz)',
+                minFreq: 0,
+                maxFreq: 60,
+                interval: 2,
+                initFreq: 40,
+                onChanged: (newValue) => _diffHzSliderValue = newValue,
+              ),
+              AudioControlWidget(
+                onPause: _player.pause,
+                onPlay: _playTone,
+              ),
+            ],
           ),
-          Slider(
-            value: _diffHzSliderValue,
-            max: 60,
-            divisions: 30,
-            label: '${_diffHzSliderValue.toInt()} Hz',
-            onChanged: (newValue) {
-              setState(() {
-                _diffHzSliderValue = newValue;
-              });
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
