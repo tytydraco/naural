@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:template/src/themes.dart';
-import 'package:template/src/tone_screen.dart';
+import 'package:naural/src/themes.dart';
+import 'package:naural/src/tone_screen.dart';
 
 Future<void> main() async {
   await JustAudioBackground.init(

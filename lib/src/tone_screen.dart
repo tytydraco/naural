@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:template/src/audio_control_widget.dart';
-import 'package:template/src/binaural_audio_source.dart';
-import 'package:template/src/freq_slider_widget.dart';
+import 'package:naural/src/audio_control_widget.dart';
+import 'package:naural/src/binaural_audio_source.dart';
+import 'package:naural/src/freq_slider_widget.dart';
 
 /// Provides options to choose and play a tone.
 class ToneScreen extends StatefulWidget {
