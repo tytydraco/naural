@@ -6,11 +6,15 @@ class SideSwitchWidget extends StatefulWidget {
   const SideSwitchWidget({
     super.key,
     required this.label,
+    required this.initValue,
     this.onChanged,
   });
 
   /// The display name of this slider.
   final String label;
+
+  /// The default value.
+  final bool initValue;
 
   /// The callback that is called when the selected frequency is changed.
   final void Function(bool newValue)? onChanged;
@@ -20,12 +24,11 @@ class SideSwitchWidget extends StatefulWidget {
 }
 
 class _SideSwitchWidgetState extends State<SideSwitchWidget> {
-  var _selectedValue = false;
+  late var _selectedValue = widget.initValue;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

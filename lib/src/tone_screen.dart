@@ -6,6 +6,7 @@ import 'package:naural/src/audio_control_widget.dart';
 import 'package:naural/src/binaural_audio_source.dart';
 import 'package:naural/src/freq_slider_widget.dart';
 import 'package:naural/src/side_switch_widget.dart';
+import 'package:shared_objects/shared_objects.dart';
 
 /// Provides options to choose and play a tone.
 class ToneScreen extends StatefulWidget {
@@ -19,9 +20,13 @@ class ToneScreen extends StatefulWidget {
 class _ToneScreenState extends State<ToneScreen> {
   final _player = AudioPlayer();
 
-  var _baseHzSliderValue = 200.0;
-  var _diffHzSliderValue = 40.0;
-  var _primarySideSwitchValue = false;
+  final _baseHzPref = SharedDouble('base_hz');
+  final _diffHzPref = SharedDouble('diff_hz');
+  final _primarySidePref = SharedBool('primary_side');
+
+  late double _baseHzSliderValue;
+  late double _diffHzSliderValue;
+  late bool _primarySideSwitchValue;
 
   Future<void> _playTone() async {
     // Invert the baseline frequency and modified frequency channels.
@@ -42,6 +47,13 @@ class _ToneScreenState extends State<ToneScreen> {
     await _player.play();
   }
 
+  /// Load the saved preferences from the disk.
+  Future<void> _loadPrefs() async {
+    _baseHzSliderValue = await _baseHzPref.getOrElse(() => 200);
+    _diffHzSliderValue = await _diffHzPref.getOrElse(() => 40);
+    _primarySideSwitchValue = await _primarySidePref.getOrElse(() => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,34 +63,53 @@ class _ToneScreenState extends State<ToneScreen> {
             maxWidth: 500,
             maxHeight: 500,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              FreqSliderWidget(
-                label: 'Base frequency (Hz)',
-                minFreq: 0,
-                maxFreq: 1000,
-                interval: 20,
-                initFreq: 200,
-                onChanged: (newValue) => _baseHzSliderValue = newValue,
-              ),
-              FreqSliderWidget(
-                label: 'Binarual frequency (Hz)',
-                minFreq: 0,
-                maxFreq: 100,
-                interval: 1,
-                initFreq: 40,
-                onChanged: (newValue) => _diffHzSliderValue = newValue,
-              ),
-              SideSwitchWidget(
-                label: 'Primary side',
-                onChanged: (newValue) => _primarySideSwitchValue = newValue,
-              ),
-              AudioControlWidget(
-                onPause: _player.pause,
-                onPlay: _playTone,
-              ),
-            ],
+          child: FutureBuilder(
+            future: _loadPrefs(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FreqSliderWidget(
+                      label: 'Base frequency (Hz)',
+                      minFreq: 0,
+                      maxFreq: 1000,
+                      interval: 20,
+                      initFreq: _baseHzSliderValue,
+                      onChanged: (newValue) async {
+                        _baseHzSliderValue = newValue;
+                        await _baseHzPref.set(newValue);
+                      },
+                    ),
+                    FreqSliderWidget(
+                      label: 'Binarual frequency (Hz)',
+                      minFreq: 0,
+                      maxFreq: 100,
+                      interval: 1,
+                      initFreq: _diffHzSliderValue,
+                      onChanged: (newValue) async {
+                        _diffHzSliderValue = newValue;
+                        await _diffHzPref.set(newValue);
+                      },
+                    ),
+                    SideSwitchWidget(
+                      label: 'Right primary channel',
+                      initValue: _primarySideSwitchValue,
+                      onChanged: (newValue) async {
+                        _primarySideSwitchValue = newValue;
+                        await _primarySidePref.set(newValue);
+                      },
+                    ),
+                    AudioControlWidget(
+                      onPause: _player.pause,
+                      onPlay: _playTone,
+                    ),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
         ),
       ),

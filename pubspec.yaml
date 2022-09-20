@@ -16,6 +16,8 @@ dependencies:
   just_audio_background: ^0.0.1-beta.7
   just_audio_mpv: ^0.1.4
   just_audio_windows: ^0.1.0
+  shared_objects:
+    git: https://github.com/tytydraco/shared_objects
   wav:
     git: https://github.com/tytydraco/wav
 
