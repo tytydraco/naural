@@ -1,4 +1,4 @@
-# Naural
+# naural
 
 A simple binaural beat generator.
 
